@@ -1,16 +1,18 @@
 import './App.css';
-import { useState } from 'react';
+import {useState} from 'react';
 // Add the following import
-import { Route, Switch, Redirect } from 'react-router-dom';
+import {Route, Switch, Redirect} from 'react-router-dom';
+import {getUser} from '../../utilities/users-service';
+
 import NavBar from '../../components/NavBar/NavBar';
 import AuthPage from '../AuthPage/AuthPage';
 
 function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(getUser());
 
   return (
     <main className="App">
-      <NavBar/>
+      <NavBar user={user} setUser={setUser}/>
       { user ?
         <>
           <Switch>
@@ -24,7 +26,7 @@ function App() {
           </Switch>
         </>
         :
-        <AuthPage/>
+        <AuthPage setUser={setUser}/>
       }
     </main>
   );
