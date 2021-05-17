@@ -1,4 +1,6 @@
 import {useState} from 'react';
+import { signUp } from '../../utilities/users-service';
+
 
 export default function SignUpForm() {
     const [details, setDetails] = useState({
@@ -14,10 +16,20 @@ export default function SignUpForm() {
         setDetails({...details, [evt.target.name]: evt.target.value});
     }
 
-    const handleSubmit = (evt) => {
+    const handleSubmit = async (evt) => {
+        // Prevent form from being submitted to the server
         evt.preventDefault();
-        console.log(details);
-    }
+        try {
+            const formData = {...details};
+            delete formData.confirm;
+            const user = await signUp(formData);
+            console.log(user);
+          
+        } catch {
+          // An error occurred 
+          setError('Sign Up Failed - Try Again');
+        }
+    };
 
     return (
         <div>
