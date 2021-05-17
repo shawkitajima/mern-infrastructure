@@ -1,24 +1,30 @@
-import logo from './logo.svg';
 import './App.css';
+import { useState } from 'react';
+// Add the following import
+import { Route, Switch, Redirect } from 'react-router-dom';
+import NavBar from '../../components/NavBar/NavBar';
 
 function App() {
+  const [user, setUser] = useState({});
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main className="App">
+      <NavBar/>
+      { user ?
+        <>
+          <Switch>
+            <Route path="/something">
+              <div>Something else</div>
+            </Route>
+            <Route path="/">
+              <div>Home Page or Something</div>
+            </Route>
+            <Redirect to="/" />
+          </Switch>
+        </>
+        :
+        <div>You need to login</div>
+      }
+    </main>
   );
 }
 
