@@ -13,6 +13,16 @@ export async function signUp(userData) {
     }
 }
 
+export async function login(credentials) {
+    try {
+      const token = await usersAPI.login(credentials);
+      localStorage.setItem('token', token);
+      return getUser();
+    } catch {
+      throw new Error('Login Failed');
+    }
+}
+
 export function getToken() {
     // getItem returns null if there's no string
     const token = localStorage.getItem('token');
