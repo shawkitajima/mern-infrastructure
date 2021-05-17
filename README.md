@@ -8,7 +8,7 @@
 
 # Heroku Deployment
 1. add the Procfile: ``touch Procfile``
-    * add the boot instructions ``web: node server.js``
+    * add the start instructions ``web: node server.js``
 2. commit changes to ``main`` branch
 3. login to heroku CLI: ``heroku login``
 4. create heroku project: ``heroku create <optional_preferred_subdomain>``
