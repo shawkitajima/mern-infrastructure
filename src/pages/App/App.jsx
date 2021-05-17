@@ -3,9 +3,11 @@ import { useState } from 'react';
 // Add the following import
 import { Route, Switch, Redirect } from 'react-router-dom';
 import NavBar from '../../components/NavBar/NavBar';
+import AuthPage from '../AuthPage/AuthPage';
 
 function App() {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
+
   return (
     <main className="App">
       <NavBar/>
@@ -22,7 +24,7 @@ function App() {
           </Switch>
         </>
         :
-        <div>You need to login</div>
+        <AuthPage/>
       }
     </main>
   );
