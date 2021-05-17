@@ -23,6 +23,7 @@ export default function SignUpForm() {
             const formData = {...details};
             delete formData.confirm;
             const user = await signUp(formData);
+            setError(null);
             console.log(user);
           
         } catch {
