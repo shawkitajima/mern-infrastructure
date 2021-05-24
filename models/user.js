@@ -3,6 +3,12 @@ const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt');
 const SALT_ROUNDS = 6;
 
+const resetSchema = new Schema ({
+    token: {type: Number, required: true},
+}, {
+    timestamps: true,
+})
+
 const userSchema = new Schema({
     name: {type: String, required: true},
     email: {
@@ -18,11 +24,13 @@ const userSchema = new Schema({
         minLength: 3,
         required: true
     },
+    reset: resetSchema,
 }, {
     timestamps: true,
     toJSON : {
         transform: function(doc, ret) {
             delete ret.password;
+            delete ret.reset;
             return ret;
         }
     }
