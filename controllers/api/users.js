@@ -6,6 +6,7 @@ module.exports = {
     create,
     login,
     resetRequest,
+    resetPassword,
 };
   
 async function create(req, res) {
@@ -53,6 +54,16 @@ async function resetRequest(req, res) {
   }
 }
 
+async function resetPassword(req, res) {
+  try {
+    const user = await User.findOne({'reset.token': req.body.token});
+    if (!user) throw new Error();
+    res.json(user);
+  } catch(err) {
+    console.log(err);
+    res.status(400).json('Bad Reset Token');
+  }
+}
 /*-- Helper Functions --*/
 
 function createJWT(user) {

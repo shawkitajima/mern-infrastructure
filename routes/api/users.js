@@ -9,5 +9,6 @@ const ensureLoggedIn = require('../../config/ensureLoggedIn');
 router.post('/', usersCtrl.create);
 router.post('/login', usersCtrl.login);
 router.post('/requestReset', usersCtrl.resetRequest);
+router.put('/password', usersCtrl.resetPassword);
 
 module.exports = router;
