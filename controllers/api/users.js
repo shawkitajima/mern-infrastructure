@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 module.exports = {
     create,
     login,
+    resetRequest,
 };
   
 async function create(req, res) {
@@ -37,6 +38,20 @@ async function login(req, res) {
     }
 }
 
+async function resetRequest(req, res) {
+  try {
+    const user = await User.findOne({email: req.body.email});
+    if (!user) throw new Error();
+    const token = Math.floor(100000 + Math.random() * 900000);
+    user.reset = {token};
+    await user.save();
+    const message = await sendSMSReset(token, req.body.phone);
+    res.json(message);
+  } catch(err) {
+    console.log(err);
+    res.status(400).json('Bad Phone Number');
+  }
+}
 
 /*-- Helper Functions --*/
 
@@ -47,4 +62,21 @@ function createJWT(user) {
       process.env.SECRET,
       { expiresIn: '14 days' }
     );
+}
+
+async function sendSMSReset(token, phone) {
+  const accountSid = process.env.TWILIO_ACCOUNT_SID;
+  const authToken = process.env.TWILIO_AUTH_TOKEN;
+  const client = require('twilio')(accountSid, authToken);
+  try {
+    const message = await client.messages.create({
+      body: `Your infrastructure reset token code is: ${token}`,
+      from: process.env.TWILIO_NUMBER,
+      to: `+1${phone}`,
+    });
+    return message;
+  } catch(err) {
+    console.log(err);
+    return err;
+  }
 }
