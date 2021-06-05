@@ -1,7 +1,9 @@
 import {useState} from 'react';
+import {Link, useHistory} from 'react-router-dom';
 import * as usersService from '../../utilities/users-service';
 
 export default function LogIn({ setUser }) {
+  const history = useHistory();
   const [credentials, setCredentials] = useState({
     email: '',
     password: ''
@@ -22,6 +24,7 @@ export default function LogIn({ setUser }) {
         // payload of the JSON Web Token (JWT)
         const user = await usersService.login(credentials);
         setUser(user);
+        history.push('/');
     } catch(err) {
         console.log(err);
         setError('Log In Failed - Try Again');
@@ -40,6 +43,7 @@ export default function LogIn({ setUser }) {
         </form>
       </div>
       <p className="error-message">&nbsp;{error}</p>
+      <Link to="/forgot">Forgot Password</Link>
     </div>
   );
 }

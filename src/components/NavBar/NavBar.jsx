@@ -11,11 +11,15 @@ export default function NavBar({user, setUser}) {
     return (
         <nav>
             <Link to="/">Home Page</Link>
-            <Link to="/something">Something Else</Link>
-            {user && 
+            {user ? 
             <>
+            {user.phone.remind && !user.phone.verified && <Link to="/phone/verify">Verify Phone Number</Link>}
+            <Link to="/something">Something Else</Link>
             Logged in as {user.name}
             <Link to="" onClick={handleLogOut}>Log Out</Link>
+            </> :
+            <>
+            <Link to="/">Log In or Signup</Link>
             </>
             }
         </nav>

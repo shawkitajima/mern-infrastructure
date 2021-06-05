@@ -3,11 +3,21 @@ const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt');
 const SALT_ROUNDS = 6;
 
+const phoneSchema = new Schema({
+    number: {type: String, required: false},
+    verified: {type: Boolean, default: false},
+    token: {type: Number, required: false},
+    remind: {type: Boolean, default: true},
+}, {
+    timestamps: true,
+})
+
 const resetSchema = new Schema ({
     token: {type: Number, required: true},
 }, {
     timestamps: true,
 })
+
 
 const userSchema = new Schema({
     name: {type: String, required: true},
@@ -24,6 +34,7 @@ const userSchema = new Schema({
         minLength: 3,
         required: true
     },
+    phone: phoneSchema,
     reset: resetSchema,
 }, {
     timestamps: true,
@@ -31,6 +42,7 @@ const userSchema = new Schema({
         transform: function(doc, ret) {
             delete ret.password;
             delete ret.reset;
+            delete ret.phone.token;
             return ret;
         }
     }
