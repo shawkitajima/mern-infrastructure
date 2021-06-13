@@ -32,17 +32,19 @@ const userSchema = new Schema({
         type: String,
         trim: true,
         minLength: 3,
-        required: true
+        required: function() {return !this.facebookId}
     },
     phone: phoneSchema,
     reset: resetSchema,
+    facebookId: String,
 }, {
     timestamps: true,
     toJSON : {
         transform: function(doc, ret) {
             delete ret.password;
             delete ret.reset;
-            delete ret.phone.token;
+            delete ret.facebookId;
+            if (ret.phone) delete ret.phone.token;
             return ret;
         }
     }

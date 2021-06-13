@@ -42,6 +42,8 @@ async function login(req, res) {
     }
 }
 
+
+
 async function sendPasswordToken(req, res) {
   try {
     const user = await User.findOne({email: req.body.email});

@@ -2,15 +2,20 @@ const express = require('express');
 const path = require('path');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
+const passport = require('passport');
 
 // Configure environment variables and database connection
 require('dotenv').config();
 require('./config/database');
+// load up the passport strategies
+require('./config/passport');
 
 const app = express();
 
 app.use(logger('dev'));
 app.use(express.json());
+// mount the passport strategies
+app.use(passport.initialize());
 
 // Configure both serve-favicon & static middleware
 // to serve from the production 'build' folder
@@ -24,6 +29,7 @@ app.use(require('./config/checkToken'));
 
 // Put API routes here, before the "catch all" route
 app.use('/api/users', require('./routes/api/users'));
+app.use('/api/auth/', require('./routes/api/auth'));
 
 // The following "catch all" route (note the *) is necessary
 // to return the index.html on all non-AJAX requests

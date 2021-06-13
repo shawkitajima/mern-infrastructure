@@ -13,7 +13,7 @@ export default function NavBar({user, setUser}) {
             <Link to="/">Home Page</Link>
             {user ? 
             <>
-            {user.phone.remind && !user.phone.verified && <Link to="/phone/verify">Verify Phone Number</Link>}
+            {user.phone && user.phone.remind && !user.phone.verified && <Link to="/phone/verify">Verify Phone Number</Link>}
             <Link to="/something">Something Else</Link>
             Logged in as {user.name}
             <Link to="" onClick={handleLogOut}>Log Out</Link>
